@@ -1,4 +1,16 @@
-#!/usr/bin/env python
+#!/usr/bin/env python  
+
+"""
+File Name: qeplotdos2.py
+Created Time: 2022-01-06 16:53:09
+Author: Prof. KESONG YANG,  UC San Diego  
+Mail: kesong@ucsd.edu
+
+A simple python code to plot density of states (DOS) produced from Quantum Espresso 
+This script uses pandas, matplotlib
+Usage example: qeplotdos.py Si2_dos.dat
+"""
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import os, os.path, sys, re, bz2
@@ -28,3 +40,6 @@ plt.ylabel('Density of States')
 outfile = system_name + "_DOS.eps"
 plt.savefig(outfile, format='eps', dpi=1000)
 #os.system("open " + outfile)
+
+# vim: tabstop=4 expandtab shiftwidth=4 softtabstop=4
+
