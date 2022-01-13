@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #written oringally by Prof. Kesong Yang (kesong@ucsd.edu) for NANO204, Feb. 16, 2016
-#Modified for NANO110, Oct. 2017
+#Modified for NANO110, Oct. 2017, and for NANO120, Jan. 2020
 #Usage pwo2cif si.geo.out
 
 import sys, numpy as np
@@ -102,6 +102,13 @@ for line in fread_pw:
             coor_atoms_tmp = np.vstack((coor_atoms_tmp, coor_atom_i))
         list_coor_atoms.append(coor_atoms_tmp)
 fread_pw.close()
+
+#calculate lattice parameters
+latt_ini = list_vec[0]
+a, b, c, alpha, beta, gamma = CalculatePara(latt_ini)
+latt_last = list_vec[-1]
+a, b, c, alpha, beta, gamma = CalculatePara(latt_last)
+
 #Normalization to conver alat unit to "crystal" or "angstrom"
 for i in range(0, len(list_celldm_1)):
     list_vec[i][0,:]*=list_celldm_1[0]*0.529177   #angstrom unit
@@ -109,21 +116,23 @@ for i in range(0, len(list_celldm_1)):
     list_vec[i][2,:]*=list_celldm_1[0]*0.529177
     if abs(list_celldm_2[i]) > 1e-8:
         list_coor_atoms[i][:,1] /= list_celldm_2[i]
+    else:
+        list_coor_atoms[i][:,2] *= (b/a)                     #format it according to lattice vectors
     if abs(list_celldm_3[i]) > 1e-8:
         list_coor_atoms[i][:,2] /= list_celldm_3[i]                     #format it according to lattice vectors
+    else:
+        list_coor_atoms[i][:,2] *= (c/a)                     #format it according to lattice vectors
+    list_coor_atoms[i][:,2] -= np.min(list_coor_atoms[i][:,2])   #put the atoms into the cell (c-axis)
     list_coor_atoms[i] = list_coor_atoms[i]*list_celldm_1[0]*0.529177   #get angstrom type
     list_coor_atoms[i] = np.dot(list_coor_atoms[i], LA.inv(list_vec[i])) #get crystal type
 last_coor_atoms = list_coor_atoms[-1].astype(float)
 
 
-latt_ini = list_vec[0]
-a, b, c, alpha, beta, gamma = CalculatePara(latt_ini)
-latt_last = list_vec[-1]
-a, b, c, alpha, beta, gamma = CalculatePara(latt_last)
+
 str_cif = GenerateCIF(latt_last, last_coor_atoms, list_atom_name)
 pwout_file = pwfile + ".cif"
 fw_cif = open(pwout_file, "w")
 fw_cif.write("%s" % str_cif)
 fw_cif.close()
-sys.stdout.write(pwout_file + " was succesfully generated!\n")
+sys.stdout.write(pwout_file + " was successfully generated!\n")
 
