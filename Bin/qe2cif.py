@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #written oringally by Prof. Kesong Yang (kesong@ucsd.edu) for NANO204, Feb. 16, 2016
 #Modified for NANO110, Oct. 2017, and for NANO120, Jan. 2020
-#Usage pwo2cif si.geo.out
+#Usage qe2cif si.geo.out
 
 import sys, numpy as np
 from numpy import linalg as LA
