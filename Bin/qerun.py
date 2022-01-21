@@ -18,8 +18,6 @@ else:
     sys.stderr.write("usage: python program.py ...")
     exit(0)
 
-username = getpass.getuser()
-
 strJobScript="""#!/bin/bash
 #SBATCH --account=csd709
 #SBATCH --nodes=1
@@ -30,11 +28,7 @@ strJobScript="""#!/bin/bash
 #SBATCH -o  out.%j
 #SBATCH --job-name  nano120A
 #SBATCH --export=ALL
-#SBATCH --mail-type=ALL
-"""
 
-strJobScript = strJobScript + "#SBATCH --mail-user=" + username + "@ucsd.edu\n"
-strJobScript = strJobScript + """
 module purge
 module load slurm
 module load cpu
