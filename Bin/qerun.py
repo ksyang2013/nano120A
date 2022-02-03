@@ -23,7 +23,7 @@ strJobScript="""#!/bin/bash
 #SBATCH --nodes=1
 #SBATCH --partition=shared
 #SBATCH --ntasks-per-node=16
-#SBATCH --time  00:15:00
+#SBATCH --time  00:60:00
 #SBATCH -e  err.%j
 #SBATCH -o  out.%j
 #SBATCH --job-name  nano120A
