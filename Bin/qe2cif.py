@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #written oringally by Prof. Kesong Yang (kesong@ucsd.edu) for NANO204, Feb. 16, 2016
 #Modified for NANO110, Oct. 2017, and for NANO120, Jan. 2020
-#Usage qe2cif si.geo.out
+#Usage pwo2cif si.geo.out
 
 import sys, numpy as np
 from numpy import linalg as LA
@@ -10,12 +10,13 @@ def CalculatePara(latt_vec):
     a1= latt_vec[0,:]
     a2= latt_vec[1,:]
     a3= latt_vec[2,:]
-    a = LA.norm(a1)
-    b = LA.norm(a2)
-    c = LA.norm(a3)
-    alpha =np.arcsin(LA.norm(np.cross(a2,a3))/(LA.norm(a2)*LA.norm(a3)))/np.pi*180
-    beta =np.arcsin(LA.norm(np.cross(a1,a3))/(LA.norm(a1)*LA.norm(a3)))/np.pi*180
-    gamma =np.arcsin(LA.norm(np.cross(a1,a2))/(LA.norm(a1)*LA.norm(a2)))/np.pi*180
+    a, b, c = LA.norm(a1), LA.norm(a2), LA.norm(a3)
+    cosBC = np.dot(a2,a3)/(b*c)
+    cosAC = np.dot(a1,a3)/(a*c)
+    cosAB = np.dot(a1,a2)/(a*b)
+    alpha =np.degrees(np.arccos(cosBC))
+    beta =np.degrees(np.arccos(cosAC))
+    gamma =np.degrees(np.arccos(cosAB))
     return(a, b, c, alpha, beta, gamma)
 
 def GenerateCIF(latt_vec, coor_atoms, list_atom_name):
