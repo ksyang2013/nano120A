@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-#written oringally by Prof. Kesong Yang (kesong@ucsd.edu) for NANO204, Feb. 16, 2016
-#Modified for NANO110, Oct. 2017, and for NANO120, Jan. 2020
+#A short script for produce cif file from quantum espresso output file 
 #Usage pwo2cif si.geo.out
 
 import sys, numpy as np
